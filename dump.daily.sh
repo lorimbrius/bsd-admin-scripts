@@ -10,6 +10,8 @@ DUMPCMD="/sbin/dump"
 LEVEL=$1
 DUMPOPTS="-C16 -b64 -${LEVEL}aLu -f -"
 FS_LIST="/var/spool/nas/critical /var/backups /var/account /var/audit /var/log"
+OWNER="root:operator"
+PERMISSIONS="0660"
 
 mounted=$(df | grep ${DUMPDEV} | wc -l)
 
@@ -65,6 +67,9 @@ do
 	then
 		exit $rc
 	fi
+
+	chown ${OWNER} ${MOUNTPOINT}/${DUMPFILE}
+	chmod ${PERMISSIONS} ${MOUNTPOINT}/${DUMPFILE}
 done
 
 UMOUNT_CMD="umount ${DUMPDEV}"
