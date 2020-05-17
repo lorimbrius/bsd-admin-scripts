@@ -9,6 +9,8 @@ FSLIST="/usr/home /var/spool/ftp /var/spool/nas /var/spool/nas/critical /var/mai
 TAR="/usr/bin/tar"
 TARARGS="--nodump --one-file-system --totals"
 DAY=`date '+%A'`
+OWNER="root:operator"
+PERMISSIONS="0660"
 
 mounted=$(df | grep ${DUMPDEV} | wc -l)
 
@@ -49,9 +51,12 @@ for fs in $FSLIST
 do
 	ARCHIVE="$(echo ${fs} | sed 's:/::' | sed 's:/:_:g')"
 	WEEKLY_TAR="${MOUNTPOINT}/${ARCHIVE}.weekly.tar.xz"
-	TARCMD="$TAR cvJf ${MOUNTPOINT}/${ARCHIVE}.${DAY}.tar.xz --newer-than $WEEKLY_TAR $TARARGS $fs"
+	FILE="${MOUNTPOINT}/${ARCHIVE}.${DAY}.tar.xz"
+	TARCMD="$TAR cvJf ${FILE} --newer-than $WEEKLY_TAR $TARARGS $fs"
 	echo $TARCMD
 	$TARCMD
+	chown ${OWNER} ${FILE}
+	chmod ${PERMISSIONS} ${FILE}
 done
 
 UMOUNT_CMD="umount ${DUMPDEV}"

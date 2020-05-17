@@ -7,6 +7,8 @@
 FS_LIST=$(zfs list -o name | tail +2)
 DUMPDEV="/dev/da0s1a"
 MOUNTPOINT="/media/backup"
+OWNER="root:operator"
+PERMISSIONS="0660"
 
 mounted=$(df | grep ${DUMPDEV} | wc -l)
 
@@ -56,6 +58,9 @@ do
 	echo $ZFS_SEND_CMD
 	$ZFS_SEND_CMD | xz > ${MOUNTPOINT}/${DUMPFILE}.0.zfsnap.xz
 	echo ${LATEST_SNAPSHOT} > /usr/local/etc/lastfull.${DELETE_PATTERN}
+	chown ${OWNER} ${MOUNTPOINT}/${DUMPFILE}.0.zfsnap.xz
+	chmod ${PERMISSIONS} ${MOUNTPOINT}/${DUMPFILE}.0.zfsnap.xz
+	
 done
 
 UMOUNT_CMD="umount ${DUMPDEV}"

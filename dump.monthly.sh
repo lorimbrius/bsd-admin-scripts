@@ -9,6 +9,8 @@ MOUNTPOINT="/media/backup"
 DUMPCMD="/sbin/dump"
 DUMPOPTS="-C16 -b64 -0aLu -f -"
 FS_LIST="/ /usr /usr/local /usr/ports /var/spool/nas/critical /var/crash /var/backups /var/account /var/audit /var/log"
+OWNER="root:operator"
+PERMISSIONS="0660"
 
 mounted=$(df | grep ${DUMPDEV} | wc -l)
 
@@ -64,6 +66,9 @@ do
 	then
 		exit $rc
 	fi
+
+	chown ${OWNER} ${MOUNTPOINT}/${DUMPFILE}
+	chmod ${PERMISSIONS} ${MOUNTPOINT}/${DUMPFILE}
 done
 
 UMOUNT_CMD="umount ${DUMPDEV}"

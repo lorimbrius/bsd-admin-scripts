@@ -52,6 +52,8 @@ do
 	ZFS_SEND_CMD="zfs send -i ${LAST_FULL} ${LATEST_SNAPSHOT}"
 	echo $ZFS_SEND_CMD
 	$ZFS_SEND_CMD | xz > ${MOUNTPOINT}/${DUMPFILE}.${DAY}.zfsnap.xz
+	chown ${OWNER} ${MOUNTPOINT}/${DUMPFILE}.${DAY}.zfsnap.xz
+	chmod ${PERMISSIONS} ${MOUNTPOINT}/${DUMPFILE}.${DAY}.zfsnap.xz
 done
 
 UMOUNT_CMD="umount ${DUMPDEV}"

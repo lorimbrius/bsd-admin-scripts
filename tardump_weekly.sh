@@ -8,6 +8,8 @@ TARARGS="--nodump --one-file-system --totals"
 
 DUMPDEV="/dev/da0s1a"
 MOUNTPOINT="/media/backup"
+OWNER="root:operator"
+PERMISSIONS="0660"
 
 mounted=$(df | grep ${DUMPDEV} | wc -l)
 
@@ -56,6 +58,9 @@ do
 	then
 		exit $rc
 	fi
+
+	chown ${OWNER} ${MOUNTPOINT}/${ARCHIVE}.weekly.tar.xz
+	chmod ${PERMISSIONS} ${MOUNTPOINT}/${ARCHIVE}.weekly.tar.xz
 done
 
 UMOUNT_CMD="umount ${DUMPDEV}"
