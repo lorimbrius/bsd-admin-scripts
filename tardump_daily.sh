@@ -57,6 +57,7 @@ do
 	$TARCMD
 	chown ${OWNER} ${FILE}
 	chmod ${PERMISSIONS} ${FILE}
+	$TAR tvJf ${FILE} > ${FILE}.toc
 done
 
 UMOUNT_CMD="umount ${DUMPDEV}"

@@ -70,6 +70,8 @@ do
 
 	chown ${OWNER} ${MOUNTPOINT}/${DUMPFILE}
 	chmod ${PERMISSIONS} ${MOUNTPOINT}/${DUMPFILE}
+
+	xzcat < ${MOUNTPOINT}/${DUMPFILE} | restore -tf - > ${MOUNTPOINT}/${DUMPFILE}.toc
 done
 
 UMOUNT_CMD="umount ${DUMPDEV}"

@@ -61,6 +61,8 @@ do
 
 	chown ${OWNER} ${MOUNTPOINT}/${ARCHIVE}.weekly.tar.xz
 	chmod ${PERMISSIONS} ${MOUNTPOINT}/${ARCHIVE}.weekly.tar.xz
+
+	$TAR tvJf ${MOUNTPOINT}/${ARCHIVE}.weekly.tar.xz > ${MOUNTPOINT}/${ARCHIVE}.weekly.tar.xz.toc
 done
 
 UMOUNT_CMD="umount ${DUMPDEV}"

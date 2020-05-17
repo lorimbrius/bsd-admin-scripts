@@ -68,6 +68,8 @@ do
 		exit $rc
 	fi
 
+	xzcat < ${MOUNTPOINT}/${DUMPFILE} | restore -tf - > ${MOUNTPOINT}/${DUMPFILE}.toc
+
 	chown ${OWNER} ${MOUNTPOINT}/${DUMPFILE}
 	chmod ${PERMISSIONS} ${MOUNTPOINT}/${DUMPFILE}
 done
