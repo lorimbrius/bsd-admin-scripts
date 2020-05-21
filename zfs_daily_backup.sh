@@ -8,6 +8,8 @@ FS_LIST=$(zfs list -o name | tail +2)
 DUMPDEV="/dev/da0s1a"
 MOUNTPOINT="/media/backup"
 DAY=$1
+OWNER="root:operator"
+PERMISSIONS="0660"
 
 mounted=$(df | grep ${DUMPDEV} | wc -l)
 
